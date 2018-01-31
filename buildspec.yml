@@ -5,12 +5,11 @@ phases:
     commands:
       - echo Entering build phase...
       - echo Build started on `date`
-      - pip install --upgrade awscli
-      - mvn package shade:shade
-      - mv target/HelloWorld-1.0.jar .
-      - unzip HelloWorld-1.0.jar
-      - rm -rf target src buildspec.yml pom.xml HelloWorld-1.0.jar
-      - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
+      - mvn package
+      - cd cfn
+      - chmod +x prepare_template.sh
+      - ./prepare_template.sh
+      - aws cloudformation package --template aws-resources.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
 artifacts:
   files:
-    - template-export.yml
+    - cfn/template-export.yml
