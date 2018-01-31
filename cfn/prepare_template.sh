@@ -1,8 +1,7 @@
 #!/bin/bash
 
 set -o errexit
-env
-sudo yum install findutils
-account_id="$(aws sts get-caller-identity --query Account --output text | xargs echo -n)"
+
+account_id="$(aws sts get-caller-identity --query Account --output text)"
 echo using account ${account_id} in ${AWS_REGION}
 sed -e "s/REGION/${AWS_REGION}/g" -e "s/ACCOUNT_ID/${account_id}/g" api-template.yml > api.yml
